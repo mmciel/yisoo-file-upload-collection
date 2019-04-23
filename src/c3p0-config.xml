@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c3p0-config>
+    <default-config>
+        <!-- 四大必要属性 -->
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/yisoo</property>
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="user">root</property>
+        <property name="password">root</property>
+        
+         <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement">3</property>
+        <!-- 初始化连接池中的连接数，取值应在minPoolSize与maxPoolSize之间，默认为3-->
+        <property name="initialPoolSize">10</property>
+         <!-- 连接池中保留的最小连接数，默认为：3-->
+        <property name="minPoolSize">2</property>
+         <!--连接池中保留的最大连接数。默认值: 15 -->  
+        <property name="maxPoolSize">10</property>
+    </default-config>
+    
+    
+        <named-config name="yisoo">
+        <property name="user">root</property>
+        <property name="password">root</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/yisoo</property>
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <!-- 如果池中数据连接不够时一次增长多少个 -->
+        <property name="acquireIncrement">5</property>
+        <!-- 初始化数据库连接池时连接的数量 -->
+        <property name="initialPoolSize">20</property>
+        <!-- 数据库连接池中的最大的数据库连接数 -->
+        <property name="maxPoolSize">25</property>
+        <!-- 数据库连接池中的最小的数据库连接数 -->
+        <property name="minPoolSize">5</property>
+    </named-config>
+
+</c3p0-config>
