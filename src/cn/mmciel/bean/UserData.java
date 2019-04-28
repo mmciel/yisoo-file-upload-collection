@@ -7,7 +7,15 @@ public class UserData {
 	private String password;
 	private int permission;
 	
-
+	public UserData() {
+		
+	}
+	public UserData(String username,String usermail,String password,int permission) {
+		this.password = password;
+		this.username = username;
+		this.usermail = usermail;
+		this.permission = permission;
+	}
 	public int getUserid() {
 		return userid;
 	}

@@ -1,6 +1,8 @@
 package cn.mmciel.bean;
 
 import java.sql.Timestamp;
+
+import com.alibaba.fastjson.annotation.JSONField;
 public class ProjectData {
 	private String userid;
 	private String projectid;
@@ -9,13 +11,16 @@ public class ProjectData {
 
 	private int isgroup;
 	private String filepath;
+	@JSONField(format="yyyy-MM-dd HH:mm:ss")
 	private Timestamp starttime;
+	@JSONField(format="yyyy-MM-dd HH:mm:ss")
 	private Timestamp endtime;
 	private String status;
 	private String group;
 	private String fnhead;
 	private String fnend;
 	private String fnmid;
+	private String groupname;
 	public String getUserid() {
 		return userid;
 	}
@@ -100,6 +105,12 @@ public class ProjectData {
 				+ ", projectps=" + projectps + ", isgroup=" + isgroup + ", filepath=" + filepath + ", starttime="
 				+ starttime + ", endtime=" + endtime + ", status=" + status + ", group=" + group + ", fnhead=" + fnhead
 				+ ", fnend=" + fnend + ", fnmid=" + fnmid + "]";
+	}
+	public String getGroupname() {
+		return groupname;
+	}
+	public void setGroupname(String groupname) {
+		this.groupname = groupname;
 	}
 	
 }

@@ -23,15 +23,11 @@ public class RegisterServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-		String username = request.getParameter("yusername");
-		String password = request.getParameter("ypassword");
-		String usermail = request.getParameter("ymail");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String usermail = request.getParameter("mail");
 		int perm = Integer.parseInt(request.getParameter("yperm"));
-		UserData userdata = new UserData();
-		userdata.setUsername(username);
-		userdata.setPassword(password);
-		userdata.setUsermail(usermail);
-		userdata.setPermission(perm);
+		UserData userdata = new UserData(username, usermail, password, perm);
 		
 		UserDataImpl udImpl = new UserDataImpl();
 		if(udImpl.setUserData(userdata)) {

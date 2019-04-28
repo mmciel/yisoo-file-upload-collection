@@ -22,15 +22,7 @@
 	}else{
 		user.value  = "${sessionScope.username}";
 	}
-
-	function Bonclick(){
-		if("${sessionScope.username}".length == 0 ){
-			window.location.href="login.jsp";
-		}else{
-			window.location.href="main.jsp";
-		}
-	}
 </script>
-
+<script src="static/js/tools.js"></script>
 </body>
 </html>

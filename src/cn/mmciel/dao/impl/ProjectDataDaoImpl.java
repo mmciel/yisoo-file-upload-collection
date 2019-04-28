@@ -1,10 +1,14 @@
 package cn.mmciel.dao.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.junit.Test;
 
 import cn.mmciel.bean.ProjectData;
+import cn.mmciel.bean.UserData;
 import cn.mmciel.dao.ProjectDataDao;
 import cn.mmciel.utils.JdbcUtils;
 
@@ -16,7 +20,7 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 	}
 	public boolean setProjectData(ProjectData data) {
 		String sql = "insert into projectdata values"
-				+ "(null,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "(null,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			int update = runner.update(sql,
 					data.getUserid(),data.getProjectname(),
@@ -24,6 +28,7 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 					data.getIsgroup(),data.getFilepath(),
 					data.getStarttime(),data.getEndtime(),
 					data.getStatus(),data.getGroup(),
+					data.getGroupname(),
 					data.getFnhead(),data.getFnend(),
 					data.getFnmid());
 			if(update == 1) {
@@ -52,10 +57,23 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 	public ProjectData getProjectDataByProjectName(String ProjectName) {
 		return null;
 	}
-	@Override
-	public ProjectData getProjectDataByUser(String UserId) {
-		
+	
+	public List<ProjectData> getProjectDataByUser(String UserId) {
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String sql = "SELECT * FROM projectdata where userid=?";
+		try {
+			List<ProjectData> list = qr.query(sql, new BeanListHandler<ProjectData>(ProjectData.class),UserId);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
+	}
+	@Test
+	public void  fff() {
+		ProjectDataDaoImpl k = new ProjectDataDaoImpl();
+		List<ProjectData> temp = k.getProjectDataByUser("100000");
+		System.out.println(temp.size());
 	}
 
 
