@@ -35,7 +35,7 @@ public class GroupDataDaoImpl implements GroupDataDao {
 		try {
 			for(GroupData data : listdata) {
 				//System.out.println(data.getName());
-				int update = runner.update(sql,data.getKey(),data.getGrade(),data.getNumber(),data.getName());
+				int update = runner.update(sql,data.getKey(),data.getNumber(),data.getName(),data.getGrade());
 				if(update != 1) {
 					return false;
 				}

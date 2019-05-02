@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import cn.mmciel.bean.UserData;
 import cn.mmciel.dao.impl.UserDataImpl;
@@ -25,13 +26,19 @@ public class RegisterServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String usermail = request.getParameter("mail");
+		String usermail = request.getParameter("email");
 		int perm = Integer.parseInt(request.getParameter("yperm"));
 		UserData userdata = new UserData(username, usermail, password, perm);
 		
 		UserDataImpl udImpl = new UserDataImpl();
 		if(udImpl.setUserData(userdata)) {
-			response.sendRedirect("success.jsp");
+			UserDataImpl UDtemp = new UserDataImpl();
+			Boolean result = UDtemp.getFind(userdata);
+            HttpSession session = request.getSession();
+            // �������session userid username
+            session.setAttribute("userid", UDtemp.getUserId(userdata));
+            session.setAttribute("username", username);
+			response.sendRedirect("mian.jsp");
 		}else {
 			response.sendRedirect("index.jsp");
 		}

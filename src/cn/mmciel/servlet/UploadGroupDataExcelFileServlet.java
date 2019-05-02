@@ -21,7 +21,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import cn.mmciel.bean.GroupData;
+import cn.mmciel.bean.GroupNameData;
 import cn.mmciel.dao.impl.GroupDataDaoImpl;
+import cn.mmciel.dao.impl.GroupNameDataDaoImpl;
 import cn.mmciel.utils.ReadExcelFile;
 import cn.mmciel.utils.StringUtils;
 
@@ -56,7 +58,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			String zhui;
-			String FileName;
+			String FileName=null;
 			String FilePath = null;
 			String GroupName=null;
 			String UserId = null;
@@ -73,18 +75,19 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 					String itemName = item.getFieldName();
 					if(item.isFormField()) {
 						if(itemName.equals("GroupFileName")) {
-							GroupName = item.getString("UTF-8");//»ñÈ¡ÓëÎÄ¼þÒ»Æð¹ýÀ´µÄÃû×Ö
-							//System.out.println(GroupName);
+							GroupName = item.getString("UTF-8");//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ä¼ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+							System.out.println(GroupName);
 						}else if(itemName.equals("userid")) {
 							UserId = item.getString("UTF-8");
-							//System.out.println(UserId);
+							System.out.println(UserId);
 						}
 						//System.out.println(itemName);
 					}else {
-	                    //´´½¨ÎÄ¼þÊä³öÁ÷
+	                    //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						zhui = item.getName().substring(item.getName().lastIndexOf("."));
 						FileName = StringUtils.getZNstringMD5(UserId+GroupName);
 						FilePath = ExcelFileFloder+"/"+FileName+zhui;
+						System.out.println(FilePath);
 	                    File file=new File(FilePath);
 	                    if(!file.exists()){
 	                        try {   
@@ -94,11 +97,11 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	                        }   
 	                    }
 	                    FileOutputStream fos=new FileOutputStream(file);                 
-	                    //´´½¨ÊäÈëÁ÷
+	                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	                    InputStream fis=(InputStream) item.getInputStream();
-	                    //´ÓÊäÈëÁ÷»ñÈ¡×Ö½ÚÊý×é
+	                    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½
 	                    byte b[]=new byte[1];
-	                    //¶ÁÈ¡Ò»¸öÊäÈëÁ÷µÄ×Ö½Úµ½b[0]ÖÐ
+	                    //ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Úµï¿½b[0]ï¿½ï¿½
 	                    int read=fis.read(b);
 	                    while(read!=-1) 
 	                    { 
@@ -108,7 +111,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	                    fis.close();
 	                    fos.flush();
 	                    fos.close();
-	                    //´òÓ¡ListÖÐµÄÄÚÈÝ£¨Ã¿Ò»¸öFileItemµÄÊµÀý´ú±íÒ»¸öÎÄ¼þ£¬Ö´ÐÐÕâÐÐ´úÂë»á´òÓ¡¸ÃÎÄ¼þµÄÒ»Ð©»ù±¾ÊôÐÔ£¬ÎÄ¼þÃû£¬´óÐ¡µÈ£©
+	                    //ï¿½ï¿½Ó¡Listï¿½Ðµï¿½ï¿½ï¿½ï¿½Ý£ï¿½Ã¿Ò»ï¿½ï¿½FileItemï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ò»Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô£ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½È£ï¿½
 	                    //System.out.println(FilePath); 
 					}
                     
@@ -138,17 +141,30 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			response.getWriter().write("ok");
-			this.setDBfromExcel(FilePath,GroupName,UserId);
+			
+			this.setGroupData(FilePath,GroupName,UserId);
+			this.setGroupNameData(FileName, GroupName, UserId);
+			response.getWriter().write("{\"status\":\"" + "1" + "\"}");
 		} else {
-			response.getWriter().write("no");
+			response.getWriter().write("{\"status\":\"" + "0" + "\"}");
 		}
 		
-		//Õâ¸öµØ·½°ÑÎÄ¼þÖÐµÄÊý¾ÝÔØÈëÊý¾Ý¿â
-		
+		//response.getWriter().write("{\"status\":\"" + "1" + "\"}");
 	}
 
-	private void setDBfromExcel(String filePath, String groupName, String userId) {
+	private void setGroupNameData(String fileName, String groupName, String userId) {
+		GroupNameData data = new GroupNameData();
+		data.setGroupName(groupName);
+		data.setKey(fileName);
+		data.setUserid(userId);
+
+		GroupNameDataDaoImpl impl = new GroupNameDataDaoImpl();
+		if(impl.setGroupNameData(data)) {
+			System.out.println("setGroupNameData ok");
+		}
+	}
+
+	private void setGroupData(String filePath, String groupName, String userId) {
 		String dataKey = StringUtils.getZNstringMD5(userId+groupName);
 		
 		ReadExcelFile efile = new ReadExcelFile();
@@ -170,7 +186,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 
 			GroupDataDaoImpl GDDI = new GroupDataDaoImpl();
 			if(GDDI.setGroupListData(data)) {
-				System.out.println("set list data ok");
+				System.out.println("setGroupData");
 			}
 		}
 		
@@ -178,6 +194,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//System.out.println("post");
 		doGet(request, response);
 	}
 	

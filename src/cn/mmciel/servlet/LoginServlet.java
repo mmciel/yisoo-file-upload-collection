@@ -34,16 +34,20 @@ public class LoginServlet extends HttpServlet {
 		UserData userdata = new UserData();
 		userdata.setUsername(username);
 		userdata.setPassword(password);
+		System.out.println(username);
+		System.out.println(password);
 		UserDataImpl UDtemp = new UserDataImpl();
 		Boolean result = UDtemp.getFind(userdata);
+		
 		if(result) {
             HttpSession session = request.getSession();
             session.setAttribute("userid", UDtemp.getUserId(userdata));
             session.setAttribute("username", username);
-			
-			response.sendRedirect("index.jsp");
+            System.out.println("login start");
+			response.sendRedirect("main.jsp");
 		}else {
-			response.sendRedirect("login.jsp");
+			System.out.println("login end");
+			response.sendRedirect("index.jsp");
 		}
 	}
 

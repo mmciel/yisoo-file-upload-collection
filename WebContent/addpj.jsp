@@ -101,14 +101,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <input type="password" class="form-control" name="ypassword" id="password" placeholder="密码" required="required">
                             </div>
                         </div>
-    
-                        <!--登陆按钮-->
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary">登录</button>
-                                <button type="button" class="btn btn-default" onclick="reg()">注册</button>
-                            </div>
-                        </div>
                     </form>
             </div>	
                 </div><!-- /.modal-content -->
@@ -124,34 +116,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </li>
     
         <li>
-        <a data-toggle="collapse" data-target="#project-dropdown1" href="#">项目相关<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
-          <ul id="project-dropdown1" class="nav collapse">
-            <li><a href="main.jsp"><span class="glyphicon glyphicon-flash"></span>项目浏览</a></li>
-            <li><a href="addpj.jsp"><span class="glyphicon glyphicon-flash"></span>项目添加</a></li>
-            <li><a href="updatepj.jsp"><span class="glyphicon glyphicon-flash"></span>项目修改</a></li>
-            <li><a href="usepj.jsp"><span class="glyphicon glyphicon-flash"></span>项目发布</a></li>
-          </ul>
-        </li>
-        <li>
-          <a data-toggle="collapse" data-target="#project-dropdown2" href="#">项目检测<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
-            <ul id="project-dropdown2" class="nav collapse">
-              <li><a href="uploadnow.jsp"><span class="glyphicon glyphicon-flash"></span>实时提交</a></li>
-              <li><a href="datapjview.jsp"><span class="glyphicon glyphicon-flash"></span>数据分析</a></li>
-              <li><a href="downpj.jsp"><span class="glyphicon glyphicon-flash"></span>项目导出</a></li>
-            </ul>
-        </li>
-        <li>
-            <a data-toggle="collapse" data-target="#project-dropdown3" href="#">个人信息<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
-              <ul id="project-dropdown3" class="nav collapse">
-                <li><a href="userdataupdate.jsp"><span class="glyphicon glyphicon-flash"></span>信息修改</a></li>
-                <li><a href="addgroupdata.jsp"><span class="glyphicon glyphicon-flash"></span>添加人员信息</a></li>
+                <a data-toggle="collapse" data-target="#project-dropdown1" href="#">项目相关<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                  <ul id="project-dropdown1" class="nav collapse">
+                    <li><a href="main.jsp"><span class="glyphicon glyphicon-flash"></span>项目浏览</a></li>
+                    <li><a href="addpj.jsp"><span class="glyphicon glyphicon-flash"></span>项目添加</a></li>
+                    <li><a href="updatepj.jsp"><span class="glyphicon glyphicon-flash"></span>项目修改</a></li>
+                    <li><a href="usepj.jsp"><span class="glyphicon glyphicon-flash"></span>项目发布</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a data-toggle="collapse" data-target="#project-dropdown2" href="#">项目检测<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                    <ul id="project-dropdown2" class="nav collapse">
+                      <li><a href="uploadnow.jsp"><span class="glyphicon glyphicon-flash"></span>实时提交</a></li>
+                      <li><a href="datapjview.jsp"><span class="glyphicon glyphicon-flash"></span>数据分析</a></li>
+                      <li><a href="downpj.jsp"><span class="glyphicon glyphicon-flash"></span>项目导出</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a data-toggle="collapse" data-target="#project-dropdown3" href="#">个人信息<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                      <ul id="project-dropdown3" class="nav collapse">
+                        <li><a href="userdataupdate.jsp"><span class="glyphicon glyphicon-flash"></span>信息修改</a></li>
+                        <li><a href="addgroupdata.jsp"><span class="glyphicon glyphicon-flash"></span>添加人员信息</a></li>
+                      </ul>
+                  </li>
               </ul>
-          </li>
-      </ul>
-    </div>
+            </div>
     
     <div class="page_main">
-        <table id="ProjectListData"></table>
+       
     </div>
     
     
@@ -185,40 +177,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			window.location.href = "register.jsp";
 		}
     </script>
-<script>
-// 项目数据表格
-layui.use("table", function() {
-    var table = layui.table;
-
-    //第一个实例
-    table.render({
-      elem: "#ProjectListData",
-      height: 550,
-      url: "./ProjectDataTableInterface", //数据接口
-      page: false, //开启分页
-      cols: [
-        [
-          //表头
-          {
-            field: "projectid",
-            title: "ID",
-            width: 50,
-            sort: true,
-            //fixed: "left"
-          },
-          { field: "projectname", title: "项目名称", width: 200 },
-          { field: "groupname", title: "采用名单", width: 100},
-          { field: "starttime", title: "开始时间", width: 177 , sort: true},
-          { field: "endtime", title: "结束时间", width: 177 , sort: true},
-          { field: "status", title: "当前状态", width: 100, sort: true },
-          { field: "projectps", title: "备注", width: 200 }
-        ]
-      ]
-    });
-  });
 
 
-</script>
     <!--  -->
 
 </body>

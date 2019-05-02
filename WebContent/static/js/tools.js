@@ -1,8 +1,7 @@
 // 如果登录了，就跳转到主页面
-
 function Bonclick() {
   if (username.length == 0) {
-    window.location.href = "login.jsp";
+    window.location.href = "index.jsp";
   } else {
     window.location.href = "main.jsp";
   }
@@ -71,10 +70,7 @@ $('input[name="datePicker"]').daterangepicker({
   timePicker: true, //显示时间
   timePicker24Hour: true, //时间制
   timePickerSeconds: true, //时间显示到秒
-  startDate: moment()
-    .hours(0)
-    .minutes(0)
-    .seconds(0), //设置开始日期
+  startDate: moment().hours(0).minutes(0).seconds(0), //设置开始日期
   endDate: moment(new Date()), //设置结束器日期
   maxDate: moment(new Date()), //设置最大日期
 
@@ -153,33 +149,3 @@ function setFormData() {
     });
   }
 
-// 项目数据表格
-  layui.use("table", function() {
-    var table = layui.table;
-
-    //第一个实例
-    table.render({
-      elem: "#data",
-      height: 312,
-      url: "./ProjectDataTableInterface", //数据接口
-      page: false, //开启分页
-      cols: [
-        [
-          //表头
-          {
-            field: "projectid",
-            title: "ID",
-            width: 50,
-            sort: true,
-            fixed: "left"
-          },
-          { field: "projectname", title: "项目名称", width: 100 },
-          { field: "groupname", title: "采用名单", width: 100, sort: true },
-          { field: "starttime", title: "开始时间", width: 177 },
-          { field: "endtime", title: "结束时间", width: 177 },
-          { field: "status", title: "当前状态", width: 100, sort: true },
-          { field: "projectps", title: "备注", width: 135, sort: true }
-        ]
-      ]
-    });
-  });
