@@ -76,10 +76,10 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 					if(item.isFormField()) {
 						if(itemName.equals("GroupFileName")) {
 							GroupName = item.getString("UTF-8");//��ȡ���ļ�һ�����������
-							System.out.println(GroupName);
+							//System.out.println(GroupName);
 						}else if(itemName.equals("userid")) {
 							UserId = item.getString("UTF-8");
-							System.out.println(UserId);
+							//System.out.println(UserId);
 						}
 						//System.out.println(itemName);
 					}else {
@@ -155,7 +155,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	private void setGroupNameData(String fileName, String groupName, String userId) {
 		GroupNameData data = new GroupNameData();
 		data.setGroupName(groupName);
-		data.setKey(fileName);
+		data.setGroupkey(fileName);
 		data.setUserid(userId);
 
 		GroupNameDataDaoImpl impl = new GroupNameDataDaoImpl();
@@ -176,7 +176,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	        for (ArrayList<String> list: datalist) {
 	        	//System.out.println(list.get(2));
 	        	GroupData tempdata = new GroupData();
-	        	tempdata.setKey(dataKey);
+	        	tempdata.setGroupkey(dataKey);
 	        	tempdata.setGrade(list.get(0));
 	        	tempdata.setNumber(list.get(1));
 	        	tempdata.setName(list.get(2));

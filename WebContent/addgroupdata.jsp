@@ -253,7 +253,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
         value="添加组"
         id = "addgroup"
       /> -->
-      <table id="GroupListData"></table>
+      <table id="GroupListData" lay-filter="tableFilter"></table>
 
     </div>
 
@@ -316,7 +316,52 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     <!-- /.modal -->
     <!-- 添加group的模态框 -->
 
+
+        <!-- 查看group的模态框 -->
+    <!-- 模态框（Modal） -->
+    <div
+      class="modal fade"
+      id="ViewGroupModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="ViewGroupModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              ×
+            </button>
+            <h4 class="modal-title" id="ViewGroupModalLabel">查看组</h4>
+          </div>
+          <div class="modal-body">
+            <!--input file name -->
+            <div class="form-group">
+            
+                <table id="viewgroup"></table>
+             
+            </div>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+    <!-- 查看group的模态框 -->
+
     <!-- admin管理页面 -->
+
+    <script type="text/html" id="BBar">
+      <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
 
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/bootstrap.js"></script>
@@ -387,31 +432,93 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
       
     </script>
     <!--  -->
+
     <script>
       // 项目数据表格
       var btStr = "<input type='button' class='btn btn-info btn-sm' data-toggle='modal' data-target='#AddGroupModal' value='添加组'id = 'addgroup'/>"
       layui.use("table", function() {
           var table = layui.table;
-      
           //第一个实例
           table.render({
             elem: "#GroupListData",
             height: 550,
             url: "./GroupDataTableInterface", //数据接口
-            page: false, //开启分页
+            page:{ //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                  layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                  ,curr: 1 //设定初始在第 1 页
+                  ,groups: 1 //只显示 1 个连续页码
+                  ,first: false //不显示首页
+                  ,last: false //不显示尾页
+            },
+            done: function(res, curr, count){
+               }, //开启分页
             cols: [
               [
+              // ,
                 { field: "userid", title: "用户ID", width: 100},
                 { field: "groupName", title: "采用名单", width: 200},
-                { field: "key", title: "组识别码", width:  300},
-                { field: "ok", title: btStr, width:  300, align: 'center'},
+                { field: "groupkey", title: "组识别码", width:  300},
+                {field:'null'  , title:btStr , align:'center' , minWidth: 100, toolbar:"#BBar"}
               ]
-            ], 
-            toolbar:true
+            ]
+            
           });
+          var viewGroupTable = table.render({
+                  elem: "#viewgroup",
+                  height: 550,
+                  url: "./PersonDataTableInterface"+"?groupkey=a23c39f85fce04c31ffb3bc520165402", //数据接口
+                  cols: [
+                    [
+                      { field: "grade", title: "组", width: 200},
+                      { field: "number", title: "序号", width: 200,sort:true},
+                      { field: "name", title: "姓名", width: 180},
+                    ]
+                  ]
+                  ,skin: 'row' //表格风格
+                  ,even: true
+                  ,page: true //是否显示分页
+                  ,limit: 5 //每页默认显示的数量
+          });
+          table.on('tool(tableFilter)', function(obj){
+            //console.log("2");
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                //layer.msg('ID：'+ data.id + ' 的查看操作');
+                //查看这个名字的所有表单
+                viewGroupTable.reload();
+                $('#ViewGroupModal').modal('show');
+            } else if(obj.event === 'del'){
+                layer.confirm('是否删除？', function(index){
+                    console.log(data);
+
+                    $.ajax({
+                        url: "DelGroupDataServlet",
+                        type: "POST",
+                        data:{"userid":data.userid,"groupName":data.groupName},
+                        dataType: "json",
+                        success: function(data){
+
+                            if(data.status==1){
+                                obj.del();
+                                layer.close(index);
+                                layer.msg("删除成功");
+                            }else{
+                                layer.msg("删除失败");
+                            }
+                        }
+
+                    });
+                });
+            }
+        });
+
+
+
+
         });
       
       </script>
+
           <!--  -->
 
   </body>

@@ -1,7 +1,7 @@
 package cn.mmciel.bean;
 
 public class GroupData {
-	 private String key;
+	 private String groupkey;
 	 private String number;
 	 private String name;
 	 private String grade;
@@ -25,11 +25,12 @@ public class GroupData {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
-	public String getKey() {
-		return key;
+	public String getGroupkey() {
+		return groupkey;
 	}
-	public void setKey(String key) {
-		this.key = key;
+	public void setGroupkey(String groupkey) {
+		this.groupkey = groupkey;
 	}
+
 	
 }

@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.junit.Test;
 
+import cn.mmciel.bean.GroupData;
 import cn.mmciel.bean.GroupNameData;
 import cn.mmciel.bean.ProjectData;
 import cn.mmciel.dao.GroupNameDataDao;
@@ -32,7 +34,7 @@ public class GroupNameDataDaoImpl implements GroupNameDataDao {
 		try {
 			int update = runner.update(sql,
 					data.getUserid(),
-					data.getKey(),
+					data.getGroupkey(),
 					data.getGroupName());
 			if(update == 1) {
 				return true;
@@ -54,7 +56,21 @@ public class GroupNameDataDaoImpl implements GroupNameDataDao {
 
 	@Override
 	public boolean DeleteGroupNameData(GroupNameData data) {
-		// TODO Auto-generated method stub
+		String sql = "delete from groupnamedata "
+				+ "where userid=? and groupname=?";
+		try {
+			int update = runner.update(sql,
+					data.getUserid(),
+					data.getGroupName());
+			if(update == 1) {
+				return true;
+			}else {
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 

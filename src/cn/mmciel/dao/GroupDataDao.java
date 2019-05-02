@@ -1,18 +1,19 @@
 package cn.mmciel.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.mmciel.bean.GroupData;
 
 public interface GroupDataDao {
-//	²éÑ¯½á¹û
-	public GroupData getGroupData(String Group);
-//	Ìí¼Ó
+//	ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½
+	public List<GroupData> getGroupData(String GroupKey);
+//	ï¿½ï¿½ï¿½
 	public boolean setGroupData(GroupData data);
-//	Ìí¼ÓÊý¾ÝÁÐ±í
+//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	public boolean setGroupListData(ArrayList<GroupData> listdata);
-//	ÐÞ¸ÄÊý¾Ý
+//	ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean UpdateGroupData(GroupData data);
-//	É¾³ýÊý¾Ý
+//	É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean DeleteGroupData(GroupData data);
 }
