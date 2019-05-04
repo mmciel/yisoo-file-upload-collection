@@ -59,7 +59,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                 <li role="separator" class="divider"></li>
                 <li><a href="#">文件收集</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="#">文件快传</a></li>
+                <li><a href="airfile.jsp">文件快传</a></li>
                 <li role="separator" class="divider"></li>
               </ul>
             </li>
