@@ -37,8 +37,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="row">
           
           <div class="form-group">
-            <div class="row col-md-offset-3 col-md-6">
-                <h1 style="color:azure">AirFile空中文件</h1>
+              <div class="col-md-offset-3 col-md-6">
+                  <h1 style="color:azure; font-size:40px">AirFile空中文件</h1>
+                  <h2 style="color:azure">文件投放</h2>
+              </div>
+            <div class="col-md-offset-3 col-md-6">
+                
               <input
                 type="text"
                 class="form-control"
@@ -50,10 +54,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
           </div>
           <div class="form-group">
-            <div class="row col-md-offset-3 col-md-6">
-              <input type="file" class="file" id="airfile" /><br>
-            </div>
+              <div class="col-md-offset-3 col-md-6">
+                <input type="file" class="file" id="airfile" /><br>
+              </div>
           </div>
+          <div class="form-group">
+              <div class="col-md-offset-3 col-md-6">
+                  <h2 style="color:azure">文件获取</h2>
+              </div>
+              
+                  <div class="col-md-offset-3 col-md-4">
+                      <input
+                      type="text"
+                      class="form-control"
+                      id="sharecode"
+                      placeholder="分享码"
+                      required="required"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <button id="btsharecode" class="btn btn-info btn-block" onclick="downFile()">下载</button>
+                  </div>
+
+             
+
+          </div>
+
       </div>
     </div>
 
@@ -94,6 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 class="btn btn-primary"
                 id="btans"
                 value="复制分享码"
+                onclick="copyText()"
               />
             </div>
           </div>
@@ -113,9 +140,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <script src="static/js/polygonizr.min.js"></script>
   <script src="static/js/fileinput.min.js"></script>
   <script src="static/js/locales/zh.js"></script>
+  <script src="static/js/jquery.fileDownload.js"></script>
 	<script type="text/javascript">
 		$('#site-landing').polygonizr();
 
+    function copyText(){
+      var e=document.getElementById("ans");//对象是contents   
+        e.select(); //选择对象   
+        tag = document.execCommand("Copy"); //执行浏览器复制命令  
+        if(tag){  
+          $('#btans').val("复制成功");
+        } 
+    }
+    function downFile(){
+      if($('#sharecode').val() === ""){
+        $('#sharecode').val("请填写分享码！");
+      }
+      var url = "AirFileDownServlet"
+      $.fileDownload(url,{
+		    httpMethod: 'POST',
+		    data:"sharecode=" + $('#sharecode').val(),
+
+		    prepareCallback:function(url){
+          //$('#btsharecode').val("正在下载");
+          console.log("正在下载");
+		    },
+		    abortCallback:function(url){
+          //$('#btsharecode').val("异常终止");
+		    	console.log("异常终止");
+		    },
+		    successCallback:function(url){
+          //$('#btsharecode').val("下载成功");
+		    	console.log("下载成功");
+
+		    },
+		    failCallback: function (html, url) {
+          
+          //$('#btsharecode').val("下载失败");
+	        console.log("下载失败");
+
+		    }
+		    
+	  });
+
+
+      
+    }
 	</script>
     <script>
         $("#airfile")
@@ -146,6 +216,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          $('#uploadresult').modal('show');
               console.log("upload ok");
             } else {
+              $('#ans').val('分享码获取失败');
+              $("#btans").hide();
+              $('#uploadresult').modal('show');
               console.log("upload no");
             }
           })

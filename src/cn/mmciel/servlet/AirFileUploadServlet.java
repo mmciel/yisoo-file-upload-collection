@@ -21,6 +21,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.alibaba.fastjson.JSONObject;
+
 import cn.mmciel.bean.AirFileData;
 import cn.mmciel.dao.impl.AirFileDataDaoImpl;
 import cn.mmciel.utils.FileTools;
@@ -32,7 +34,8 @@ import cn.mmciel.utils.StringUtils;
 @WebServlet("/AirFileUploadServlet")
 public class AirFileUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+//	分享
+	private String sharecode = null;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
@@ -46,6 +49,7 @@ public class AirFileUploadServlet extends HttpServlet {
 //		文件字段
 		boolean isMu = ServletFileUpload.isMultipartContent(request);
 		boolean result = false;
+
 		if (isMu) {
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
@@ -116,20 +120,27 @@ public class AirFileUploadServlet extends HttpServlet {
 
 			//response.getWriter().write("{\"status\":\"" + "1" + "\"}");
 		}
+		JSONObject obj = new JSONObject();
 		if(result) {
-			response.getWriter().write("{\"status\":\"" + "1" + "\"}");
+			obj.put("status", "1");
+			obj.put("data",sharecode);
+			//System.out.println(obj.toJSONString());
+			response.getWriter().write(obj.toJSONString());
 		}else {
-			response.getWriter().write("{\"status\":\"" + "0" + "\"}");
+			obj.put("status", "1");
+			response.getWriter().write(obj.toJSONString());
 		}
 		
 	}
 	private boolean setData(String filePath,int maxCount,String fileCode) {
 		
 		String ShareCode=getShareCode();
+		sharecode = ShareCode;
 		AirFileData data = new AirFileData();
 		AirFileDataDaoImpl AFDDI = new AirFileDataDaoImpl();
 		while(AFDDI.getAirFileData(ShareCode)!=null) {
 			ShareCode = getShareCode();
+			sharecode = ShareCode;
 		}
 		data.setDownCount(0);
 		data.setFileCode(fileCode);
