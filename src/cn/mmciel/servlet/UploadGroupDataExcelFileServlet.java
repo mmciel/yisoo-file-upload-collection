@@ -111,7 +111,6 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	                    fis.close();
 	                    fos.flush();
 	                    fos.close();
-	                    //��ӡList�е����ݣ�ÿһ��FileItem��ʵ������һ���ļ���ִ�����д�����ӡ���ļ���һЩ�������ԣ��ļ�������С�ȣ�
 	                    //System.out.println(FilePath); 
 					}
                     
@@ -155,7 +154,7 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	private void setGroupNameData(String fileName, String groupName, String userId) {
 		GroupNameData data = new GroupNameData();
 		data.setGroupName(groupName);
-		data.setGroupkey(fileName);
+		data.setGroupkey(StringUtils.getZNstringMD5(userId+groupName));//传入的md5值是文件名称
 		data.setUserid(userId);
 
 		GroupNameDataDaoImpl impl = new GroupNameDataDaoImpl();

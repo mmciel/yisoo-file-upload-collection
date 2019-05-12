@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import cn.mmciel.bean.ProjectData;
+import cn.mmciel.dao.impl.GroupNameDataDaoImpl;
 import cn.mmciel.dao.impl.ProjectDataDaoImpl;
 import cn.mmciel.utils.StringUtils;
 import cn.mmciel.utils.TimeStringUtils;
@@ -35,53 +36,24 @@ public class AddPorjectServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 		ProjectData pdata = new ProjectData();
-		String GroupName = null;
-		String zhui = null;//Œƒº˛∫Û◊∫√˚
-		
-		
-		FileItemFactory factory = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(factory);
-		try {
-			
-			List<FileItem> items = upload.parseRequest(request);
-			Iterator<FileItem> iter = items.iterator();
-			while (iter.hasNext()) {
-                FileItem item = iter.next();
-				String itemName = item.getFieldName();
-				if(item.isFormField()) {
-					if(itemName.equals("projectName")) {
-						pdata.setProjectname(item.getString("UTF-8"));
-						//String GroupName = item.getString("UTF-8");
-						//System.out.println(GroupName);
-					}else if(itemName.equals("projectPs")) {
-						pdata.setProjectps(item.getString("UTF-8"));
-						//String UserId = item.getString("UTF-8");
-						//System.out.println(UserId);
-					}else if(itemName.equals("datePicker")) {
-						String datePicker = item.getString("UTF-8");
-						System.out.println(datePicker);
-						this.solveTimeData(pdata, datePicker);
-					}else if(itemName.equals("userid")){
-						pdata.setUserid(item.getString("UTF-8"));
-					}else if(itemName.equals("groupfilename")) {
-						GroupName = item.getString("UTF-8");
-					}else if(itemName.equals("zhui")) {
-						zhui = "." + item.getString("UTF-8");
-					}
-				}
-            }
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+		String GroupName = request.getParameter("groupname");
+		String Projectname = request.getParameter("projectName");
+		String datePicker = request.getParameter("datePicker");
+		String projectPs = request.getParameter("projectPs");
+		String UserId = request.getParameter("userid");
+		pdata.setProjectps(projectPs);
+		pdata.setProjectname(Projectname);
+		this.solveTimeData(pdata, datePicker);
+		pdata.setUserid(UserId);
+
+
 		if(GroupName != null) {
-			//Àµ√˜ π”√¡À√˚µ•
-			
 			pdata.setIsgroup(1);
-			String FileName = StringUtils.getZNstringMD5(pdata.getUserid()+GroupName);
-			pdata.setGroup(FileName+zhui);
+			pdata.setGroup(GroupName);
 			pdata.setFnend("-");
 			pdata.setFnhead("-");
 			pdata.setFnmid("-");
@@ -91,27 +63,26 @@ public class AddPorjectServlet extends HttpServlet {
 			
 		}
 
+		pdata.setFilepath(pdata.getGroup());
+		String groupName = new GroupNameDataDaoImpl().getGroupNameDataByGroupKey(pdata.getGroup());
 		
-		String UploadPath = request.getSession().getServletContext().getRealPath("")+"upload/";
-		String SaveFilePath = pdata.getUserid()+"+"+pdata.getProjectname();
-		pdata.setFilepath(SaveFilePath);
-		File fileTemp = new File(UploadPath+SaveFilePath);
-		if(!fileTemp.exists()) {
-			fileTemp.mkdir();
-		}
+		pdata.setGroupname(groupName);
 		//System.out.println(fileTemp);
 		//response.getWriter().write("123");
-		pdata.setStatus("1");
+		//‰º†ÂÖ•Áä∂ÊÄÅ
+		pdata.setStatus("Êú™ÂèëÂ∏É");
 		//System.out.println(pdata.toString());
 		
 		ProjectDataDaoImpl PDDI = new ProjectDataDaoImpl();
 		PDDI.setProjectData(pdata);
+		System.out.println(pdata.toString());
+		//response.getWriter().print(pdata.toString());
+		response.getWriter().write("{\"status\":\"" + "1" + "\"}");
 	}
 	private void solveTimeData(ProjectData pdata, String s) {
 		String startTime = s.substring(0,s.length()/2).trim();
 		String endTime = s.substring(s.length()/2+1, s.length()).trim();
-		//System.out.println(startTime);
-		//System.out.println(endTime);
+		//‰º†ÂÖ•ÂºÄÂßãÊó∂Èó¥‰∏éÊà™Ê≠¢Êó∂Èó¥
 		pdata.setStarttime(TimeStringUtils.StringToTimestamp(startTime));
 		pdata.setEndtime(TimeStringUtils.StringToTimestamp(endTime));
 	}

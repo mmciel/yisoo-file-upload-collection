@@ -100,11 +100,13 @@ public class ProjectData {
 		this.projectps = projectps;
 	}
 	
+
+	@Override
 	public String toString() {
 		return "ProjectData [userid=" + userid + ", projectid=" + projectid + ", projectname=" + projectname
 				+ ", projectps=" + projectps + ", isgroup=" + isgroup + ", filepath=" + filepath + ", starttime="
 				+ starttime + ", endtime=" + endtime + ", status=" + status + ", group=" + group + ", fnhead=" + fnhead
-				+ ", fnend=" + fnend + ", fnmid=" + fnmid + "]";
+				+ ", fnend=" + fnend + ", fnmid=" + fnmid + ", groupname=" + groupname + "]";
 	}
 	public String getGroupname() {
 		return groupname;

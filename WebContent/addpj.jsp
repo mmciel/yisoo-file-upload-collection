@@ -120,12 +120,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                   <ul id="project-dropdown1" class="nav collapse">
                     <li><a href="main.jsp"><span class="glyphicon glyphicon-flash"></span>项目浏览</a></li>
                     <li><a href="addpj.jsp"><span class="glyphicon glyphicon-flash"></span>项目添加</a></li>
-                    <li><a href="updatepj.jsp"><span class="glyphicon glyphicon-flash"></span>项目修改</a></li>
+
                     <li><a href="usepj.jsp"><span class="glyphicon glyphicon-flash"></span>项目发布</a></li>
                   </ul>
                 </li>
                 <li>
-                  <a data-toggle="collapse" data-target="#project-dropdown2" href="#">项目检测<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
+                  <a data-toggle="collapse" data-target="#project-dropdown2" href="#">项目监控<span class="glyphicon glyphicon-chevron-right pull-right"></span></a>
                     <ul id="project-dropdown2" class="nav collapse">
                       <li><a href="uploadnow.jsp"><span class="glyphicon glyphicon-flash"></span>实时提交</a></li>
                       <li><a href="datapjview.jsp"><span class="glyphicon glyphicon-flash"></span>数据分析</a></li>
@@ -143,7 +143,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             </div>
     
     <div class="page_main">
-       
+       <div class="container">
+         <div class="row col-md-offset-2 col-md-6">
+          <form > 
+            <div class="form-group">
+              <label for="yname">项目名称</label>
+              <input type="text" class="form-control" id="yname" placeholder="项目名称">
+            </div>
+            <div class="form-group">
+                <label for="ytext">项目描述</label>
+              <textarea class="form-control" id="ytext" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
+                    <option>请选择项目采用的名单</option>
+                    <option value="null" data-subtext="option subtext">无</option>
+                    
+
+                  </select>
+                <!-- <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="isgroup" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                      是否采用名单命名文件
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="isgroup" id="groupnametable">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                    </ul>
+                  </div> -->
+            </div>
+            <div class="form-group">
+                <label for="datePicker">时间限制</label>
+                <input type="text"class="form-control"  name="datePicker" id="datePicker" />
+            </div>
+            <input type="button" class="btn btn-primary"onclick="AddPorject()" value="提交">
+
+          </form>
+         </div>
+       </div>
     </div>
     
     
@@ -161,6 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="static/layui/layui.js"></script>
 	<script src="static/js/tools.js"></script>
     <script type="text/javascript">
+    var StaticUserId = "${sessionScope.userid}";
 		var user = document.getElementById('user');
 		if("${sessionScope.username}".length == 0 ){
       
@@ -178,7 +217,101 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
     </script>
 
+  <script>
+    var groupselect = document.getElementById("basic");
+      $.ajax({
+      url: "GroupDataTableInterface",
+      type: "post",
+      data:{"userid":StaticUserId},
+      dataType: "json",
+      success: function(data){
+        for(var temp in data.data){
+          //console.log(temp);
+          $("#basic").append("<option data-subtext='option subtext' value='"+ data.data[temp].groupkey +"'>"+data.data[temp].groupName+"</option>");
+          //var opt = new Option(data.data[temp].groupName, data.data[temp].groupkey);
+         // groupselect.options.add(opt);
+        }
 
+          
+      }
+
+     });
+
+     function AddPorject(){
+      //  console.log($('#yname').val());
+      //  console.log($('#ytext').val());
+      //  console.log($('#datePicker').val());
+      //  console.log($('#basic').val());
+       $.ajax({
+        url: "AddPorjectServlet",
+        type: "post",
+        data:{
+          "userid":StaticUserId,
+          "projectName":$('#yname').val(),
+          "projectPs":$('#ytext').val(),
+          "datePicker":$('#datePicker').val(),
+          "groupname":$('#basic').val()
+        },
+        dataType: "json",
+        success: function(data){
+          if(data.status==1){
+            alert("添加成功");
+          }else{
+            alert("添加失败");
+          }
+        }
+       });
+     }
+
+
+  </script>
+<script>
+// 日期初始化
+$('input[name="datePicker"]').daterangepicker({
+  timePicker: true, //显示时间
+  timePicker24Hour: true, //时间制
+  timePickerSeconds: true, //时间显示到秒
+  startDate: moment().hours(0).minutes(0).seconds(0), //设置开始日期
+  endDate: moment(new Date()), //设置结束器日期
+  maxDate: moment(new Date()), //设置最大日期
+
+  minDate: 1999 - 12 - 12,
+  maxDate: 2050 - 12 - 30,
+
+  opens: "center",
+  ranges: {
+    // '今天': [moment(), moment()],
+    // '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    // '上周': [moment().subtract(6, 'days'), moment()],
+    // '前30天': [moment().subtract(29, 'days'), moment()],
+    本月: [moment().startOf("month"), moment().endOf("month")]
+    // '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+  },
+  showWeekNumbers: true,
+  locale: {
+    format: "YYYY-MM-DD HH:mm:ss", //设置显示格式
+    applyLabel: "确定", //确定按钮文本
+    cancelLabel: "取消", //取消按钮文本
+    customRangeLabel: "自定义",
+    daysOfWeek: ["日", "一", "二", "三", "四", "五", "六"],
+    monthNames: [
+      "一月",
+      "二月",
+      "三月",
+      "四月",
+      "五月",
+      "六月",
+      "七月",
+      "八月",
+      "九月",
+      "十月",
+      "十一月",
+      "十二月"
+    ],
+    firstDay: 1
+  }
+});
+</script>
     <!--  -->
 
 </body>

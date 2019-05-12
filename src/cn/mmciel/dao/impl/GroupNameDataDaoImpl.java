@@ -86,4 +86,16 @@ public class GroupNameDataDaoImpl implements GroupNameDataDao {
 		}
 		return null;
 	}
+	@Override
+	public String getGroupNameDataByGroupKey(String groupKey) {
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String sql = "SELECT * FROM groupnamedata where groupkey=?";
+		try {
+			List<GroupNameData> list = qr.query(sql, new BeanListHandler<GroupNameData>(GroupNameData.class),groupKey);
+			return list.get(0).getGroupName();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

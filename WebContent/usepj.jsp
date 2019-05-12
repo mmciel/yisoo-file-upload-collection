@@ -240,16 +240,71 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     </div>
 
     <div class="page_main">
-      <table id="ProjectListData"></table>
+      <table id="ProjectListData" lay-filter="tableFilter"></table>
     </div>
 
     <!-- admin管理页面 -->
 
-    <script type="text/html" id="toolbarDemo">
-      <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-      </div>
+    <script type="text/html" id="ReleaseButton">
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="release">删除</a>
+
     </script>
+
+
+        <!-- 模态框（Modal） -->
+        <div
+        class="modal fade"
+        id="ReleaseModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="ReleaseModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                ×
+              </button>
+              <h4 class="modal-title" id="ReleaseModalLabel">发布项目</h4>
+            </div>
+            <!--登陆框中间部分(from表单)-->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-offset-2 col-md-8">
+
+
+                          <div class="form-group">
+                            <input type="text"
+                            class="form-control"
+                            id="shareurl"
+                            required="required"
+                          />
+                        </div>
+                        <div class="form-group">
+                            <input type="button"
+                            class="btn btn-primary"
+                            id="copyurl"
+                            value="复制链接"
+                            onclick="copyUrl()"
+                          />
+                        </div>
+                </div>
+                <div class="col-md-offset-2 col-md-8">.col-md-8</div>
+
+              </div>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
 
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/bootstrap.js"></script>
@@ -272,6 +327,18 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
       function reg() {
         window.location.href = "register.jsp";
       }
+
+
+
+      function copyText(){
+      var e=document.getElementById("shareurl");//对象是contents   
+        e.select(); //选择对象   
+        tag = document.execCommand("Copy"); //执行浏览器复制命令  
+        if(tag){  
+          $('#copyurl').val("复制链接");
+        } 
+    }
+
     </script>
     <script>
       // 项目数据表格
@@ -287,7 +354,6 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           cols: [
             [
               //表头
-              { type: "radio" },
               {
                 field: "projectid",
                 title: "ID",
@@ -300,19 +366,28 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
               { field: "starttime", title: "开始时间", width: 177, sort: true },
               { field: "endtime", title: "结束时间", width: 177, sort: true },
               { field: "status", title: "当前状态", width: 100, sort: true },
-              { field: "projectps", title: "备注", width: 200 }
+              {
+                field: "null",
+                title: "操作",
+                width: 100,
+                align: "center",
+                minWidth: 100,
+                toolbar: "#ReleaseButton"
+              }
             ]
           ]
         });
 
-        //头工具栏事件
-        table.on("toolbar(test)", function(obj) {
-          var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
-          switch (obj.event) {
-            case "getCheckData":
-              var data = checkStatus.data; //获取选中行数据
-              layer.alert(JSON.stringify(data));
-              break;
+        table.on("tool(tableFilter)", function(obj) {
+          console.log("2");
+          var data = obj.data;
+          if (obj.event === "release") {
+            $('#ReleaseModalLabel').modal('show');
+              if(data.status == "未发布"){
+                $('#ReleaseModalLabel').modal('show');
+              }else if(data.status == "已发布"){
+
+              }
           }
         });
       });

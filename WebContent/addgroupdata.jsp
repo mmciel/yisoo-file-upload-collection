@@ -200,7 +200,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
         </li>
         <li>
           <a data-toggle="collapse" data-target="#project-dropdown2" href="#"
-            >项目检测<span
+            >项目监控<span
               class="glyphicon glyphicon-chevron-right pull-right"
             ></span
           ></a>
@@ -398,7 +398,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                 var obj = {};
                 obj.userid = "${sessionScope.userid}";
                 obj.GroupFileName = $('#GroupName').val();
-                //console.log(obj.GroupFileName);
+                console.log(obj.GroupFileName);
                 return obj;
               },
               uploadAsync: true,
@@ -466,7 +466,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           var viewGroupTable = table.render({
                   elem: "#viewgroup",
                   height: 550,
-                  url: "./PersonDataTableInterface"+"?groupkey=a23c39f85fce04c31ffb3bc520165402", //数据接口
+                  url: "", //数据接口
                   cols: [
                     [
                       { field: "grade", title: "组", width: 200},
@@ -485,7 +485,10 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
             if(obj.event === 'detail'){
                 //layer.msg('ID：'+ data.id + ' 的查看操作');
                 //查看这个名字的所有表单
-                viewGroupTable.reload();
+                console.log(data.groupkey);
+                viewGroupTable.reload({
+                  url: "./PersonDataTableInterface"+"?groupkey="+data.groupkey
+                });
                 $('#ViewGroupModal').modal('show');
             } else if(obj.event === 'del'){
                 layer.confirm('是否删除？', function(index){
