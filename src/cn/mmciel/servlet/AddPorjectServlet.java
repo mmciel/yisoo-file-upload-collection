@@ -22,8 +22,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import cn.mmciel.bean.ProjectData;
+import cn.mmciel.bean.ProjectShareData;
 import cn.mmciel.dao.impl.GroupNameDataDaoImpl;
 import cn.mmciel.dao.impl.ProjectDataDaoImpl;
+import cn.mmciel.dao.impl.ProjectShareDataDaoImpl;
 import cn.mmciel.utils.StringUtils;
 import cn.mmciel.utils.TimeStringUtils;
 
@@ -77,6 +79,18 @@ public class AddPorjectServlet extends HttpServlet {
 		PDDI.setProjectData(pdata);
 		System.out.println(pdata.toString());
 		//response.getWriter().print(pdata.toString());
+		
+		//写入数据到projectsharedata
+		ProjectShareData PSData = new ProjectShareData();
+		//获取projectdata自动生成的projectid
+		
+		PSData.setProjectId(PDDI.getProjectId(pdata.getUserid(),pdata.getProjectname()));
+		
+		//System.out.println("id = "+PSData.getProjectId());
+		PSData.setProjectKey(StringUtils.getMD5(PSData.getProjectId()));
+		ProjectShareDataDaoImpl PSDDI = new ProjectShareDataDaoImpl();
+		PSDDI.setProjectShareData(PSData);
+		
 		response.getWriter().write("{\"status\":\"" + "1" + "\"}");
 	}
 	private void solveTimeData(ProjectData pdata, String s) {

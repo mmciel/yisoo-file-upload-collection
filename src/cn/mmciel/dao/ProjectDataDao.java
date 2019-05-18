@@ -8,10 +8,14 @@ public interface ProjectDataDao {
 //	get
 	public ProjectData getProjectDataByProjectName(String ProjectName);
 	public List<ProjectData> getProjectDataByUser(String UserId);
-//	Ìí¼Ó
+//	ï¿½ï¿½ï¿½
 	public boolean setProjectData(ProjectData data);
-//	ĞŞ¸ÄÊı¾İ
+//	ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean UpdateProjectData(ProjectData data);
-//	É¾³ıÊı¾İ
+//	É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public boolean DeleteProjectData(ProjectData data);
+//	ä¿®æ”¹å½“å‰é¡¹ç›®çš„
+	public boolean UpdateProjectStatus(String ProjectID,String status);
+//	æ ¹æ®useridå’Œé¡¹ç›®åæ‰¾é¡¹ç›®id
+	public String getProjectId(String UserID,String ProjectName);
 }

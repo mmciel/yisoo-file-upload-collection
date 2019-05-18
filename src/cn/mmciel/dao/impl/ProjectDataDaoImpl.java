@@ -69,11 +69,37 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 		}
 		return null;
 	}
-	@Test
-	public void  fff() {
-		ProjectDataDaoImpl k = new ProjectDataDaoImpl();
-		List<ProjectData> temp = k.getProjectDataByUser("100000");
-		System.out.println(temp.size());
+
+	@Override
+	public boolean UpdateProjectStatus(String ProjectID, String status) {
+		String sql = "update projectdata set status=? where projectid=?";
+		try {
+			int update = runner.update(sql,status,ProjectID);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	@Override
+	public String getProjectId(String UserID, String ProjectName) {
+		//把自动生成的id写到data中
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String tsql = "SELECT * FROM projectdata where projectname=? and userid=?";
+		List<ProjectData> list;
+		try {
+			list = qr.query(tsql, 
+					new BeanListHandler<ProjectData>(ProjectData.class),
+					ProjectName,UserID);
+			System.out.println("sousuoda"+list.get(0).getProjectid());
+			return list.get(0).getProjectid();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 

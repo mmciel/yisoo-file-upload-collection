@@ -47,6 +47,7 @@ public class ProjectDataTableInterface extends HttpServlet {
 		obj.put( "count", len);
 		//System.out.println(obj);
 		//System.out.println(obj);
+		//System.out.println("interface:"+obj);
 		response.getWriter().print(obj);
 	}
 

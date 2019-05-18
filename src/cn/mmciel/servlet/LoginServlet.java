@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
             System.out.println("login start");
 			response.sendRedirect("main.jsp");
 		}else {
-			System.out.println("login end");
+			//System.out.println("login end");
 			response.sendRedirect("index.jsp");
 		}
 	}

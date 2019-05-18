@@ -246,8 +246,8 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     <!-- admin管理页面 -->
 
     <script type="text/html" id="ReleaseButton">
-      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="release">删除</a>
-
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stopbt">停止</a>
+      <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="sharebt">启动</a>
     </script>
 
 
@@ -295,7 +295,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                           />
                         </div>
                 </div>
-                <div class="col-md-offset-2 col-md-8">.col-md-8</div>
+                <!-- <div class="col-md-offset-2 col-md-8">.col-md-8</div> -->
 
               </div>
             </div>
@@ -361,15 +361,15 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                 sort: true
                 //fixed: "left"
               },
-              { field: "projectname", title: "项目名称", width: 200 },
-              { field: "groupname", title: "采用名单", width: 100 },
+              { field: "projectname", title: "项目名称", width: 160 },
+              { field: "groupname", title: "采用名单", width: 180 },
               { field: "starttime", title: "开始时间", width: 177, sort: true },
               { field: "endtime", title: "结束时间", width: 177, sort: true },
               { field: "status", title: "当前状态", width: 100, sort: true },
               {
                 field: "null",
                 title: "操作",
-                width: 100,
+                width: 180,
                 align: "center",
                 minWidth: 100,
                 toolbar: "#ReleaseButton"
@@ -379,14 +379,43 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
         });
 
         table.on("tool(tableFilter)", function(obj) {
-          console.log("2");
           var data = obj.data;
-          if (obj.event === "release") {
-            $('#ReleaseModalLabel').modal('show');
+          if (obj.event === "stopbt") {
               if(data.status == "未发布"){
-                $('#ReleaseModalLabel').modal('show');
+                  alert("已经停止");
               }else if(data.status == "已发布"){
-
+                  //改变当前状态
+                  var fromData = {order:'share',projectid:data.projectid,status:'0'};
+                  $.ajax({
+                    url: "./UpdateProjectServlet",
+                    method: "post",
+                    timeout: 5000,
+                    data: fromData,
+                    dataType:"json",
+                    success: function(data) {
+                      console.log(data);
+                      alert("关闭成功！");
+                    }
+                  });
+              }
+          }else if(obj.event === "sharebt") {
+              if(data.status == "未发布"){
+                //ajax修改状态
+                var fromData = {order:'share',projectid:data.projectid,status:'1'};
+                  $.ajax({
+                    url: "./UpdateProjectServlet",
+                    method: "post",
+                    timeout: 5000,
+                    data: fromData,
+                    dataType:"json",
+                    success: function(data) {
+                      
+                      console.log(data);
+                    }
+                  });
+                $('#ReleaseModal').modal('show');
+              }else if(data.status == "已发布"){
+                alert("已经发布");
               }
           }
         });
