@@ -291,7 +291,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                             class="btn btn-primary"
                             id="copyurl"
                             value="复制链接"
-                            onclick="copyUrl()"
+                            onclick="copyText()"
                           />
                         </div>
                 </div>
@@ -335,7 +335,8 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
         e.select(); //选择对象   
         tag = document.execCommand("Copy"); //执行浏览器复制命令  
         if(tag){  
-          $('#copyurl').val("复制链接");
+          //$('#copyurl').val("复制l");
+          layer.msg("复制成功", {icon: 6});
         } 
     }
 
@@ -346,7 +347,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
         var table = layui.table;
 
         //第一个实例
-        table.render({
+        var tableIns = table.render({
           elem: "#ProjectListData",
           height: 550,
           url: "./ProjectDataTableInterface", //数据接口
@@ -378,6 +379,8 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           ]
         });
 
+
+
         table.on("tool(tableFilter)", function(obj) {
           var data = obj.data;
           if (obj.event === "stopbt") {
@@ -392,9 +395,10 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                     timeout: 5000,
                     data: fromData,
                     dataType:"json",
-                    success: function(data) {
-                      console.log(data);
+                    success: function(re) {
+                      console.log(re);
                       alert("关闭成功！");
+                      tableIns.reload();
                     }
                   });
               }
@@ -408,9 +412,10 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                     timeout: 5000,
                     data: fromData,
                     dataType:"json",
-                    success: function(data) {
-                      
-                      console.log(data);
+                    success: function(re) {
+                      $('#shareurl').val(re.url);
+                      console.log(re);
+                      tableIns.reload();
                     }
                   });
                 $('#ReleaseModal').modal('show');
