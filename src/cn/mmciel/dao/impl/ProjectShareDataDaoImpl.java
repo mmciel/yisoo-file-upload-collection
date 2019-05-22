@@ -40,12 +40,6 @@ public class ProjectShareDataDaoImpl implements ProjectShareDataDao {
 	}
 
 	@Override
-	public boolean DelProjectShareDataById(String data) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public ProjectShareData getProjectShareDataById(String data) {
 		// TODO Auto-generated method stub
 		return null;
@@ -77,6 +71,18 @@ public class ProjectShareDataDaoImpl implements ProjectShareDataDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	@Override
+	public boolean DelProjectShareDataByProjectId(String data) {
+		String sql = "delete from projectsharedata where projectid=?";
+		try {
+			int update = runner.update(sql,data);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 }

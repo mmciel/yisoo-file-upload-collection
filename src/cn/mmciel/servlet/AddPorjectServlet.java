@@ -64,8 +64,12 @@ public class AddPorjectServlet extends HttpServlet {
 			pdata.setGroup("");
 			
 		}
+//		写入文件路径
+		pdata.setFilepath(pdata.getProjectid() + pdata.getProjectname());
+//		创建文件路径
+		String tempPath = request.getSession().getServletContext().getRealPath("uploadfiles")+"\\";
+		new File(tempPath+pdata.getFilepath()).mkdirs();
 
-		pdata.setFilepath(pdata.getGroup());
 		String groupName = new GroupNameDataDaoImpl().getGroupNameDataByGroupKey(pdata.getGroup());
 		
 		pdata.setGroupname(groupName);

@@ -248,6 +248,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     <script type="text/html" id="ReleaseButton">
       <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stopbt">停止</a>
       <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="sharebt">启动</a>
+      <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="viewbt">查看链接</a>
     </script>
 
 
@@ -354,15 +355,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           page: false, //开启分页
           cols: [
             [
-              //表头
-              {
-                field: "projectid",
-                title: "ID",
-                width: 50,
-                sort: true
-                //fixed: "left"
-              },
-              { field: "projectname", title: "项目名称", width: 160 },
+              { field: "projectname", title: "项目名称", width: 145 },
               { field: "groupname", title: "采用名单", width: 180 },
               { field: "starttime", title: "开始时间", width: 177, sort: true },
               { field: "endtime", title: "结束时间", width: 177, sort: true },
@@ -421,6 +414,26 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                 $('#ReleaseModal').modal('show');
               }else if(data.status == "已发布"){
                 alert("已经发布");
+              }
+          }else if(obj.event === "viewbt") {
+              if(data.status == "已发布"){
+                //ajax修改状态
+                var fromData = {order:'share',projectid:data.projectid,status:'2'};
+                  $.ajax({
+                    url: "./UpdateProjectServlet",
+                    method: "post",
+                    timeout: 5000,
+                    data: fromData,
+                    dataType:"json",
+                    success: function(re) {
+                      $('#shareurl').val(re.url);
+                      console.log(re);
+                      tableIns.reload();
+                    }
+                  });
+                $('#ReleaseModal').modal('show');
+              }else if(data.status == "未发布"){
+                alert("未发布");
               }
           }
         });

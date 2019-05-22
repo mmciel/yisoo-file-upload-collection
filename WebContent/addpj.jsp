@@ -218,7 +218,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </script>
 
   <script>
-    var groupselect = document.getElementById("basic");
       $.ajax({
       url: "GroupDataTableInterface",
       type: "post",
@@ -226,15 +225,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       dataType: "json",
       success: function(data){
         for(var temp in data.data){
-          //console.log(temp);
           $("#basic").append("<option data-subtext='option subtext' value='"+ data.data[temp].groupkey +"'>"+data.data[temp].groupName+"</option>");
           //var opt = new Option(data.data[temp].groupName, data.data[temp].groupkey);
-         // groupselect.options.add(opt);
+          // groupselect.options.add(opt);
         }
-
-          
       }
-
      });
 
      function AddPorject(){

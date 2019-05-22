@@ -101,6 +101,18 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 		return null;
 
 	}
+	@Override
+	public boolean DelProjectDataByProjectId(String data) {
+		String sql = "delete from projectdata where projectid=?";
+		try {
+			int update = runner.update(sql,data);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
 
 
 }
