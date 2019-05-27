@@ -21,7 +21,7 @@ public class TestProjectDataImpl {
 		data.setStarttime(etime);
 		data.setEndtime(stime);
 		data.setStatus("1");
-		data.setGroup("123123");
+		data.setGroupkey("123123");
 		data.setFnhead("k");
 		data.setFnmid("-");
 		data.setFnend("=");;

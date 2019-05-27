@@ -55,22 +55,22 @@ public class AddPorjectServlet extends HttpServlet {
 
 		if(GroupName != null) {
 			pdata.setIsgroup(1);
-			pdata.setGroup(GroupName);
+			pdata.setGroupkey(GroupName);
 			pdata.setFnend("-");
 			pdata.setFnhead("-");
 			pdata.setFnmid("-");
 		}else {
 			pdata.setIsgroup(0);
-			pdata.setGroup("");
+			pdata.setGroupkey("");
 			
 		}
 //		写入文件路径
-		pdata.setFilepath(pdata.getProjectid() + pdata.getProjectname());
+		pdata.setFilepath(UserId+ "-" + pdata.getProjectname());
 //		创建文件路径
 		String tempPath = request.getSession().getServletContext().getRealPath("uploadfiles")+"\\";
 		new File(tempPath+pdata.getFilepath()).mkdirs();
 
-		String groupName = new GroupNameDataDaoImpl().getGroupNameDataByGroupKey(pdata.getGroup());
+		String groupName = new GroupNameDataDaoImpl().getGroupNameDataByGroupKey(pdata.getGroupkey());
 		
 		pdata.setGroupname(groupName);
 		//System.out.println(fileTemp);

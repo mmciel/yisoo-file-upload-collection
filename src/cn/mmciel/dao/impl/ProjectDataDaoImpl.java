@@ -8,6 +8,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.junit.Test;
 
 import cn.mmciel.bean.ProjectData;
+import cn.mmciel.bean.ProjectShareData;
 import cn.mmciel.bean.UserData;
 import cn.mmciel.dao.ProjectDataDao;
 import cn.mmciel.utils.JdbcUtils;
@@ -27,7 +28,7 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 					data.getProjectps(),
 					data.getIsgroup(),data.getFilepath(),
 					data.getStarttime(),data.getEndtime(),
-					data.getStatus(),data.getGroup(),
+					data.getStatus(),data.getGroupkey(),
 					data.getGroupname(),
 					data.getFnhead(),data.getFnend(),
 					data.getFnmid());
@@ -112,6 +113,20 @@ public class ProjectDataDaoImpl implements ProjectDataDao{
 		}
 		
 		return false;
+	}
+	@Override
+	public ProjectData getProjectDataByProjectId(String data) {
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String sql = "SELECT * FROM projectdata where projectid=?";
+		try {
+			List<ProjectData> list = qr.query(sql,
+					new BeanListHandler<ProjectData>(ProjectData.class),
+					data);
+			return list.get(0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 

@@ -158,8 +158,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <select id="basic" class="selectpicker show-tick form-control" data-live-search="true">
                     <option>请选择项目采用的名单</option>
                     <option value="null" data-subtext="option subtext">无</option>
-                    
-
                   </select>
                 <!-- <div class="dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="isgroup" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

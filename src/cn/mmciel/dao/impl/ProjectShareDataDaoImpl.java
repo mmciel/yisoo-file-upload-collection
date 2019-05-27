@@ -47,7 +47,16 @@ public class ProjectShareDataDaoImpl implements ProjectShareDataDao {
 
 	@Override
 	public ProjectShareData getProjectShareDataByKey(String data) {
-		// TODO Auto-generated method stub
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String sql = "SELECT * FROM projectsharedata where projectkey=?";
+		try {
+			List<ProjectShareData> list = qr.query(sql,
+					new BeanListHandler<ProjectShareData>(ProjectShareData.class),
+					data);
+			return list.get(0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

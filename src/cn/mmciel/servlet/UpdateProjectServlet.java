@@ -49,7 +49,7 @@ public class UpdateProjectServlet extends HttpServlet {
 				ProjectShareDataDaoImpl PSDDI = new ProjectShareDataDaoImpl();
 				String Key = PSDDI.getProjectKeyById(ProjectID);//MD5字符串
 				String basePath =request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-				String UrlParam = basePath + "UploadServer?" + "url=" + Key;
+				String UrlParam = basePath + "yisoo.jsp?" + "url=" + Key;
 				JSONObject obj = new JSONObject();
 				obj.put( "url", UrlParam);
 				response.getWriter().print(obj);		
@@ -58,7 +58,7 @@ public class UpdateProjectServlet extends HttpServlet {
 				ProjectShareDataDaoImpl PSDDI = new ProjectShareDataDaoImpl();
 				String Key = PSDDI.getProjectKeyById(ProjectID);//MD5字符串
 				String basePath =request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-				String UrlParam = basePath + "UploadServer?" + "url=" + Key;
+				String UrlParam = basePath + "yisoo.jsp?" + "url=" + Key;
 				JSONObject obj = new JSONObject();
 				obj.put( "url", UrlParam);
 				response.getWriter().print(obj);		

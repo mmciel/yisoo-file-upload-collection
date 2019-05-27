@@ -18,23 +18,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- 引入 Bootstrap -->
 	<!-- <link rel="stylesheet" href="static/css/bootstrap.css"> -->
     <link rel="stylesheet" href="static/css/components.css" />
+    <link rel="stylesheet" href="static/css/fileinput.min.css" />
+
   </head>
-  <body>
+  <body class="all-bg">
 
     <div class="wrapper ">
         <!--header section-->
-        <section class="colored-section hero-header">
+        <section class="hero-header">
             <div class="container ">
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
                         <div class="brand ">
                         <h1 id="projectid"></h1>
-                        <p id="projectps"></p>
+                        <p id="projectps">89</p>
+                        <p id="time"></p>
                         <select id="group" class="selectpicker show-tick form-control" data-live-search="true">
                                 <option>请选择</option>
-
                         </select>
-                        <input type="file" class="file" id="GroupFile" /><br>
+                        <input type="file" class="file" id="UserFile" /><br>
                         </div>
                     </div>
                 </div>
@@ -46,10 +48,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
     <script src="static/js/jquery.min.js"></script>
 	<script src="static/js/bootstrap.js"></script>
-
+    <script src="static/js/fileinput.min.js"></script>
     <script>
     //初始化页面参数
-    
+    var fromData = new Object;
+    var aParams = document.location.search.substr(1).split("&");
+    for (i = 0; i < aParams.length; i++) {
+    　　aParam = aParams[i].split("=");
+    　　fromData[aParam[0]] = aParam[1];
+    }
+    //console.log(fromData);
+    // 把此参数传到后台，获取项目信息
+    $.ajax({
+        url: "UploadServer",
+        type: "POST",
+        data: fromData,
+        dataType: "json",
+        success: function(re){
+            console.log(re);
+            $('#projectid').html(re.projectname);
+            $('#projectps').html(re.projectps);
+             
+        }
+
+    });
     </script>
 
 </body>

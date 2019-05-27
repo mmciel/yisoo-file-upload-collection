@@ -27,7 +27,7 @@ public class PersonDataTableInterface extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 		String GroupKey = request.getParameter("groupkey");
-		System.out.println(GroupKey);
+		//System.out.println(GroupKey);
 		GroupDataDaoImpl GDDI = new GroupDataDaoImpl();
 		List<GroupData> data = GDDI.getGroupData(GroupKey);
 		JSONObject obj = new JSONObject();

@@ -3,17 +3,18 @@
 /*----------------------------------------------
 * Sections
 ----------------------------------------------*/
+.all-bg{
+	
+	background-image: url(../img/yisoo-bg.jpg);
+    background-attachment:fixed;
+	background-repeat:no-repeat;
+}
 .hero-header {
     height: 100vh;
-    background-image: url(../img/yisoo-bg2.jpg);
     min-height: 100px;
     background-size: cover;
-    background-position: center center;
-    position: relative;
 }
-.colored-section.hero-header{
-    background-image: url(../img/yisoo-bg.jpg);
-}
+
 .hero-header .container{
     z-index: 2;
     position: relative;

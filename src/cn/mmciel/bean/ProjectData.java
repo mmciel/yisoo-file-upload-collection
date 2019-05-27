@@ -16,7 +16,7 @@ public class ProjectData {
 	@JSONField(format="yyyy-MM-dd HH:mm:ss")
 	private Timestamp endtime;
 	private String status;
-	private String group;
+	private String groupkey;
 	private String fnhead;
 	private String fnend;
 	private String fnmid;
@@ -69,12 +69,7 @@ public class ProjectData {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getGroup() {
-		return group;
-	}
-	public void setGroup(String group) {
-		this.group = group;
-	}
+
 	public String getFnhead() {
 		return fnhead;
 	}
@@ -105,14 +100,20 @@ public class ProjectData {
 	public String toString() {
 		return "ProjectData [userid=" + userid + ", projectid=" + projectid + ", projectname=" + projectname
 				+ ", projectps=" + projectps + ", isgroup=" + isgroup + ", filepath=" + filepath + ", starttime="
-				+ starttime + ", endtime=" + endtime + ", status=" + status + ", group=" + group + ", fnhead=" + fnhead
-				+ ", fnend=" + fnend + ", fnmid=" + fnmid + ", groupname=" + groupname + "]";
+				+ starttime + ", endtime=" + endtime + ", status=" + status + ", groupkey=" + groupkey + ", fnhead="
+				+ fnhead + ", fnend=" + fnend + ", fnmid=" + fnmid + ", groupname=" + groupname + "]";
 	}
 	public String getGroupname() {
 		return groupname;
 	}
 	public void setGroupname(String groupname) {
 		this.groupname = groupname;
+	}
+	public String getGroupkey() {
+		return groupkey;
+	}
+	public void setGroupkey(String groupkey) {
+		this.groupkey = groupkey;
 	}
 	
 }
