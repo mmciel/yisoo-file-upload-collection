@@ -75,7 +75,6 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 					String itemName = item.getFieldName();
 					if(item.isFormField()) {
 						if(itemName.equals("GroupFileName")) {
-							GroupName = item.getString("UTF-8");//��ȡ���ļ�һ�����������
 							//System.out.println(GroupName);
 						}else if(itemName.equals("userid")) {
 							UserId = item.getString("UTF-8");
@@ -83,7 +82,6 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 						}
 						//System.out.println(itemName);
 					}else {
-	                    //�����ļ������
 						zhui = item.getName().substring(item.getName().lastIndexOf("."));
 						FileName = StringUtils.getZNstringMD5(UserId+GroupName);
 						FilePath = ExcelFileFloder+"/"+FileName+zhui;
@@ -97,11 +95,8 @@ public class UploadGroupDataExcelFileServlet extends HttpServlet {
 	                        }   
 	                    }
 	                    FileOutputStream fos=new FileOutputStream(file);                 
-	                    //����������
 	                    InputStream fis=(InputStream) item.getInputStream();
-	                    //����������ȡ�ֽ�����
 	                    byte b[]=new byte[1];
-	                    //��ȡһ�����������ֽڵ�b[0]��
 	                    int read=fis.read(b);
 	                    while(read!=-1) 
 	                    { 

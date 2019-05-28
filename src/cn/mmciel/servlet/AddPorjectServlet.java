@@ -69,7 +69,11 @@ public class AddPorjectServlet extends HttpServlet {
 //		创建文件路径
 		String tempPath = request.getSession().getServletContext().getRealPath("uploadfiles")+"\\";
 		new File(tempPath+pdata.getFilepath()).mkdirs();
-
+		//创建临时存储 
+		File targetFile = new File(tempPath+"\\uploadTemp");
+		if (!targetFile.exists()) {
+			targetFile.mkdirs();
+		}
 		String groupName = new GroupNameDataDaoImpl().getGroupNameDataByGroupKey(pdata.getGroupkey());
 		
 		pdata.setGroupname(groupName);

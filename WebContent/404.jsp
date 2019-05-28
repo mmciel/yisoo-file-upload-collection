@@ -39,15 +39,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
-
-                            <h1 class="fadeInLeftBig">404:页面找不到</h1>
-
+							</br></br>
+                            <h1 id="errorword" class="fadeInLeftBig">404:页面找不到</h1>
+<!-- 
                             <div class="fadeInLeftBig">
                             	<p>
                             		We are working very hard on the new version of our site. 
                             		In the meantime sign up to our newsletter and you'll be one of the first to know when the site is ready: 
                             	</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script src="static/js/jquery.min.js"></script>
         <script src="static/js/jquery.backstretch.min.js"></script>
         <script>
-        
+        var word = new Object;
+        var aParams = document.location.search.substr(1).split("&");
+        for (i = 0; i < aParams.length; i++) {
+		        　　aParam = aParams[i].split("=");
+		      word[aParam[0]] = aParam[1];
+        }
+        //console.log(word['error']);
+        $('#errorword').html("页面找不到 : "+decodeURI(word['error']));
         </script>
     </body>
 </html>

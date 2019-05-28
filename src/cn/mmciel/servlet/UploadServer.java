@@ -2,6 +2,7 @@ package cn.mmciel.servlet;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,8 +66,11 @@ public class UploadServer extends HttpServlet {
 				System.out.println(endTime);
 				System.out.println(nowTime);
 				obj.put( "status", "2");//项目正常
-				obj.put( "starttime", projectData.getStarttime());
-				obj.put( "endtime", projectData.getEndtime());
+				String startTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(projectData.getStarttime());
+				obj.put( "starttime", startTimeString);
+				String endTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(projectData.getEndtime());
+
+				obj.put( "endtime", endTimeString);
 				
 				obj.put( "projectname", projectData.getProjectname());
 				

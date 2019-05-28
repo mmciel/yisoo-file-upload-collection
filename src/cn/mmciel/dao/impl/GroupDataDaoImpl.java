@@ -93,4 +93,18 @@ public class GroupDataDaoImpl implements GroupDataDao {
 //		boolean f = t.DeleteGroupData(data);
 //		System.out.println(f);
 //	}
+	@Override
+	public GroupData getGroupDataByNumber(String GroupKey, String Number) {
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String sql = "SELECT * FROM groupdata where groupkey=? and number=?";
+		try {
+			List<GroupData> list = qr.query(sql,
+					new BeanListHandler<GroupData>(GroupData.class),
+					GroupKey,Number);
+			return list.get(0);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
