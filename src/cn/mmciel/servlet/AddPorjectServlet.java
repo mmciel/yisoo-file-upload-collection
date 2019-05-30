@@ -56,8 +56,8 @@ public class AddPorjectServlet extends HttpServlet {
 		if(GroupName != null) {
 			pdata.setIsgroup(1);
 			pdata.setGroupkey(GroupName);
-			pdata.setFnend("-");
-			pdata.setFnhead("-");
+			pdata.setFnend("");
+			pdata.setFnhead("");
 			pdata.setFnmid("-");
 		}else {
 			pdata.setIsgroup(0);
@@ -66,11 +66,11 @@ public class AddPorjectServlet extends HttpServlet {
 		}
 //		写入文件路径
 		pdata.setFilepath(UserId+ "-" + pdata.getProjectname());
-//		创建文件路径
+//		创建项目文件夹
 		String tempPath = request.getSession().getServletContext().getRealPath("uploadfiles")+"\\";
 		new File(tempPath+pdata.getFilepath()).mkdirs();
 		//创建临时存储 
-		File targetFile = new File(tempPath+"\\uploadTemp");
+		File targetFile = new File(tempPath+"uploadTemp");
 		if (!targetFile.exists()) {
 			targetFile.mkdirs();
 		}

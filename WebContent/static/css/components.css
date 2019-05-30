@@ -1,8 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Hind:300,400,500,600|Catamaran:300,500,600,700,800,900');
-
-/*----------------------------------------------
-* Sections
-----------------------------------------------*/
+/* 
 .all-bg{
 	
 	background-image: url(../img/yisoo-bg.jpg);
@@ -25,15 +21,7 @@
     text-align: center;
 }
 
-/*@media (max-width: 768px){
-    .brand {
-        margin-top: 20vh; 
-    }
-    .brand h1{
-        font-size: 2.5em;
-    }
-}
-*/
+
 section {
     padding: 80px 0px;
 }
@@ -45,4 +33,4 @@ section {
     section {
         padding: 40px 10px;
     }
-}
+} */

@@ -56,7 +56,6 @@ public class UploadFileServlet extends HttpServlet {
 		String tempPath = null;//临时文件地址
 		String tempParent = request.getSession().getServletContext().getRealPath("uploadfiles")+"\\";
 
-//		String ParentPath = request.getSession().getServletContext().getRealPath("uploadfiles");
 		boolean isMu = ServletFileUpload.isMultipartContent(request);
 		if (isMu) {
 			FileItemFactory factory = new DiskFileItemFactory();
@@ -72,7 +71,6 @@ public class UploadFileServlet extends HttpServlet {
                     FileItem item = iter.next();
 					String itemName = item.getFieldName();
 					if(item.isFormField()) {
-						System.out.println("21312");
 						if(itemName.equals("projectid")) {
 							ProjectId = item.getString("UTF-8");
 							//System.out.println(ProjectId);
@@ -86,13 +84,13 @@ public class UploadFileServlet extends HttpServlet {
                 		if (!targetFile.exists()) {
                 			targetFile.mkdirs();
                 		}
-						
+						//记录文件后缀
 						FileSuffix = item.getName().substring(item.getName().lastIndexOf("."));
-						tempPath = tempParent + "\\uploadTemp\\"+item.getName();
-						System.out.println(tempPath);
+						//获取文件临时存储位置
+						tempPath = tempParent + "uploadTemp\\"+item.getName();
+//						System.out.println(tempPath);
 	                    File file=new File(tempPath);
 	                    if(!file.exists()){
-
 	                        try {   
 	                            file.createNewFile();   
 	                        } catch (IOException e) {   
@@ -116,18 +114,7 @@ public class UploadFileServlet extends HttpServlet {
 			} catch (FileUploadException e1) {
 				e1.printStackTrace();
 			}
-			//把文件存到应该存的地方
-            //文件存储成功后，相关信息写入到数据库
-			//System.out.println("@"+Number);
-			ParentPath = this.getParentPath(request,ProjectId);
-			FileName = this.getFileName(ProjectId,GroupKey,Number);
-			FilePath = ParentPath+"/"+FileName+FileSuffix;
 
-    		File targetFile = new File(ParentPath);
-    		if (!targetFile.exists()) {
-    			targetFile.mkdirs();
-    		}
-			FileUtils.copyFile(new File(tempPath), new File(FilePath));
 			//System.out.println(FilePath);
 			//new File(tempPath).delete();
 			//
@@ -137,6 +124,19 @@ public class UploadFileServlet extends HttpServlet {
 			JSONObject obj = new JSONObject();
 			obj.put( "status", "1");
 			response.getWriter().print(obj);
+			
+			//把文件存到应该存的地方
+            //文件存储成功后，相关信息写入到数据库
+			//System.out.println("@"+Number);
+			ParentPath = this.getParentPath(tempParent,ProjectId);
+			FileName = this.getFileName(ProjectId,GroupKey,Number);
+			FilePath = ParentPath+"/"+FileName+FileSuffix;
+
+    		File targetFile = new File(ParentPath);
+    		if (!targetFile.exists()) {
+    			targetFile.mkdirs();
+    		}
+			FileUtils.copyFile(new File(tempPath), new File(FilePath));
 		} 
 	}
 
@@ -149,9 +149,9 @@ public class UploadFileServlet extends HttpServlet {
 				pdata.getFnend();
 	}
 
-	private String getParentPath(HttpServletRequest request,String projectId) {
+	private String getParentPath(String  Parent,String projectId) {
 		ProjectData temp = new ProjectDataDaoImpl().getProjectDataByProjectId(projectId);
-		return request.getSession().getServletContext().getRealPath("uploadfiles")+"\\"+temp.getFilepath();
+		return Parent+temp.getFilepath();
 
 	}
 

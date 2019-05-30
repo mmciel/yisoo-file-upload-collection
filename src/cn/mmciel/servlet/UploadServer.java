@@ -53,19 +53,19 @@ public class UploadServer extends HttpServlet {
 				if(nowTime.before(startTime)) {
 //					项目未开始
 					obj.put( "status", "-1");
-					response.getWriter().print(obj);
-					return;
+
 				}
-				if(endTime.before(nowTime)) {
+				else if(endTime.before(nowTime)) {
 //					项目过期
 
 					obj.put( "status", "1");
-					response.getWriter().print(obj);
-					return;
+
+				}else{
+					obj.put( "status", "2");//项目正常
 				}
 				System.out.println(endTime);
 				System.out.println(nowTime);
-				obj.put( "status", "2");//项目正常
+
 				String startTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(projectData.getStarttime());
 				obj.put( "starttime", startTimeString);
 				String endTimeString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(projectData.getEndtime());

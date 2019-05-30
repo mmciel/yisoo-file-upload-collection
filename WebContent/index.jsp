@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-                <input  type="button" class="btn btn-primary" data-toggle="modal" data-target="#LoginModal" id="user" name="user" value="登录" onclick="userConsole()">
+                <input  type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#LoginModal" id="user" name="user" value="登录" onclick="userConsole()">
             </li>
 
           </ul>

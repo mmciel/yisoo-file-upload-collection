@@ -12,25 +12,75 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
+    <!-- <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
       integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
       crossorigin="anonymous"
-    />
+    /> -->
 
     <!-- 引入 Bootstrap -->
     <!-- <link rel="stylesheet" href="static/css/bootstrap.css"> -->
-    <link rel="stylesheet" href="static/css/components.css" />
+    <!-- <link rel="stylesheet" href="static/css/components.css" /> -->
     <link rel="stylesheet" href="static/css/fileinput.min.css" />
     <link rel="stylesheet" href="static/layui/css/layui.css" />
+    <link rel="stylesheet" href="static/css/bootstrap.css" />
+
+    <style>
+    .all-bg{
+      background-image: url(./static/img/yisoo-bg.jpg);
+      background-attachment:fixed;
+      background-repeat:no-repeat;
+    }
+    .brand {
+        margin-top: 10vh;
+        color: #fff;
+        text-align: center;
+    }
+    
+    </style>
   </head>
   <body class="all-bg">
-    <div class="wrapper ">
-      <!--header section-->
-      <div class="container ">
+    <nav class="navbar navbar-collapse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">YiSoo</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">主页</a></li>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#contact">更新</a></li>
+            <li class="dropdown">
+              <a
+                href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >功能 <span class="caret"></span
+              ></a>
+              <ul class="dropdown-menu">
+                <li role="separator" class="divider"></li>
+                <li><a href="#">文件收集</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="airfile.jsp">文件快传</a></li>
+                <li role="separator" class="divider"></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav nav-pills navbar-right">
+            <li role="presentation"><a id="viewdata" href="#">查看提交情况</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+      <div class="container">
         <div class="row">
-          <div class="col-md-6 offset-md-3">
+          <div class="col-md-offset-3 col-md-6">
             <div class="brand">
               <h1 id="projectid">项目未知异常</h1>
               <br />
@@ -55,7 +105,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           </div>
         </div>
       </div>
-    </div>
+
 
     <script src="static/js/jquery.min.js"></script>
     <script src="static/js/bootstrap.js"></script>
@@ -70,6 +120,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
         aParam = aParams[i].split("=");
         fromData[aParam[0]] = aParam[1];
       }
+      $('#viewdata').attr('href','viewdata.jsp?url='+fromData['url']); 
       //console.log(fromData);
 
       // 把此参数传到后台，获取项目信息
@@ -98,9 +149,11 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           if (re.status === "0") {
             location.href = "404.jsp/?error=项目未启动";
           } else if (re.status === "-1") {
-            location.href = "404.jsp/?error=项目未开始";
+            alert("未开始！！！");
+            location.href = 'viewdata.jsp?url='+fromData['url'];
           } else if (re.status === "1") {
-            location.href = "404.jsp/?error=项目已结束";
+            alert("已结束！！！");
+            location.href = 'viewdata.jsp?url='+fromData['url'];
           } else if (re.status === "2") {
             pdata = re;
             //initSelect();
@@ -142,7 +195,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           showCaption: true,
           showPreview: true,
           showRemove: true,
-          browseClass: "btn btn-primary",
+          browseClass: "btn btn-info",
           dropZoneEnabled: false,
           enctype: "multipart/form-data",
           maxFileSize: 10240,
