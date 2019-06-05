@@ -6,17 +6,20 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 public class UploadRecord {
 	private String ProjectId;
+	private String GroupKey;
+	private String Number;
+	private String FileName;
 	@JSONField(format="yyyy-MM-dd HH:mm:ss")
 	private Timestamp CreateTime;
-	private String FileName;
-	private String GroupKey;
-	private String GroupNumber;
-	public UploadRecord(String projectId, Timestamp createTime, String fileName, String groupKey, String groupNumber) {
+	
+	public UploadRecord() {}
+
+	public UploadRecord(String projectId, String groupKey, String number, String fileName, Timestamp createTime) {
 		ProjectId = projectId;
-		CreateTime = createTime;
-		FileName = fileName;
 		GroupKey = groupKey;
-		GroupNumber = groupNumber;
+		Number = number;
+		FileName = fileName;
+		CreateTime = createTime;
 	}
 	public String getProjectId() {
 		return ProjectId;
@@ -42,11 +45,11 @@ public class UploadRecord {
 	public void setGroupKey(String groupKey) {
 		GroupKey = groupKey;
 	}
-	public String getGroupNumber() {
-		return GroupNumber;
+	public String getNumber() {
+		return Number;
 	}
-	public void setGroupNumber(String groupNumber) {
-		GroupNumber = groupNumber;
+	public void setNumber(String Number) {
+		this.Number = Number;
 	}
 
 	

@@ -91,6 +91,23 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     <script src="static/js/locales/zh.js"></script>
     <script src="static/layui/layui.js"></script>
     <script>
+      Date.prototype.Format = function (fmt) {                    
+              var o = {
+                      "M+": this.getMonth() + 1,                      //月份 
+                      "d+": this.getDate(),                           //日 
+                      "H+": this.getHours(),                          //小时 
+                      "m+": this.getMinutes(),                        //分 
+                      "s+": this.getSeconds(),                        //秒 
+                      "q+": Math.floor((this.getMonth() + 3) / 3),    //季度 
+                      "S": this.getMilliseconds()                     //毫秒 
+              };
+              if (/(y+)/.test(fmt)) 
+                  fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+              for (var k in o)
+              if (new RegExp("(" + k + ")").test(fmt)) 
+                  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+              return fmt;
+      }
       //初始化页面参数
       var fromData = new Object();
       var aParams = document.location.search.substr(1).split("&");
@@ -132,20 +149,38 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           var viewGroupTable = table.render({
                   elem: "#viewsubmit",
                   height: 550,
-                  url:"RealTimeInterface?projectid="+pdata.projectid,
+                  url:"RealTimeCommitInterface?projectid="+pdata.projectid,
                   cols: [
                     [
-                    { field: "grade", title: "组", width: 200},
-                      { field: "number", title: "序号", width: 200,sort:true},
-                      { field: "name", title: "姓名", width: 180},
-                      { field: "committime", title: "提交时间", width: 200,sort:true},
-                      { field: "iscommit", title: "是否提交", width: 200,sort:true}
+                    { field: "grade", title: "组", width: 170},
+                      { field: "number", title: "序号", width: 170,sort:true},
+                      { field: "name", title: "姓名", width: 100},
+                      { field: "createtime", title: "提交时间", width: 200,sort:true,
+                      templet: function (d) {
+                        var str = new Date(parseInt(d.createtime)).Format("yyyy-MM-dd HH:mm:ss");
+                        if(str == "1970-01-01 08:00:00"){
+                          return "-";
+                        }else{
+                          return str;
+                        }
+                         
+                        }},
+                      { field: "iscommit", title: "结果", width: 90,sort:true ,
+                      templet: function (d) {
+                            if ( d.iscommit ==0 ){
+                                return '未提交';
+                            }else {
+                                return '已提交';
+                            }
+                        }}
                       
                     ]
                   ]
+                   
                   ,skin: 'row' //表格风格
                   ,even: true
                   ,page: false //是否显示分页
+
           });
         });
     </script>

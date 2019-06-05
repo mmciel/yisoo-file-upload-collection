@@ -119,7 +119,7 @@ public class UploadFileServlet extends HttpServlet {
 			//new File(tempPath).delete();
 			//
 			Timestamp nowTime = new Timestamp(System.currentTimeMillis());
-            UploadRecord udata = new UploadRecord(ProjectId, nowTime, FileName+FileSuffix, GroupKey, Number);
+            UploadRecord udata = new UploadRecord(ProjectId, GroupKey, Number , FileName+FileSuffix,nowTime);
             new UploadRecordDaoImpl().setUploadRecord(udata);
 			JSONObject obj = new JSONObject();
 			obj.put( "status", "1");

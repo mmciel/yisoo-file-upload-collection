@@ -38,7 +38,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           
           <div class="form-group">
               <div class="col-md-offset-3 col-md-6">
-                  <h1 style="color:azure; font-size:40px">AirFile空中文件</h1>
+                  <h1 style="color:azure; font-size:40px">YiSoo Air File</h1>
                   <h2 style="color:azure">文件投放</h2>
               </div>
             <div class="col-md-offset-3 col-md-6">

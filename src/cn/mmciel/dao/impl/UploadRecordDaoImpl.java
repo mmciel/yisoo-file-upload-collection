@@ -1,10 +1,14 @@
 package cn.mmciel.dao.impl;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import cn.mmciel.bean.GroupData;
+import cn.mmciel.bean.ProjectData;
 import cn.mmciel.bean.UploadRecord;
 import cn.mmciel.dao.UploadRecordDao;
 import cn.mmciel.utils.JdbcUtils;
@@ -27,7 +31,7 @@ public class UploadRecordDaoImpl implements UploadRecordDao {
 			int update = runner.update(sql,
 					data.getProjectId(),
 					data.getGroupKey(),
-					data.getGroupNumber(),
+					data.getNumber(),
 					data.getFileName(),
 					data.getCreateTime()
 					);
@@ -39,6 +43,21 @@ public class UploadRecordDaoImpl implements UploadRecordDao {
 			e.printStackTrace();
 		}
 		return true ;
+	}
+
+	@Override
+	public List<UploadRecord> getUploadRecordByProjectId(String projectid) {
+		QueryRunner qr = new QueryRunner(JdbcUtils.getDataSource());
+		String sql = "SELECT * FROM uploadrecord where projectid=?";
+		try {
+			List<UploadRecord> list = qr.query(sql,
+					new BeanListHandler<UploadRecord>(UploadRecord.class),
+					projectid);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 
