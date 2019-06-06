@@ -327,7 +327,6 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
       <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-
     <!-- 修改项目 -->
     <script type="text/html" id="ReleaseButton">
       <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delbt">删除</a>
@@ -361,6 +360,7 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     </script>
     <script>
       // 项目数据表格
+      var $projectid;
       layui.use("table", function() {
         var table = layui.table;
 
@@ -372,27 +372,32 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
           page: false, //开启分页
           cols: [
             [
-              { field: "projectname", title: "项目名称", width: 145 },
-              { field: "groupname", title: "采用名单", width: 100 },
-              { field: "starttime", title: "开始时间", width: 177, sort: true },
-              { field: "endtime", title: "结束时间", width: 177, sort: true },
-              { field: "status", title: "当前状态", width: 100, sort: true },
-              { field: "projectps", title: "备注", width: 200 },
-              {
+            {
                 field: "null",
                 title: "操作",
                 width: 180,
                 align: "center",
                 minWidth: 100,
                 toolbar: "#ReleaseButton"
-              }
+              },
+              { field: "projectname", title: "项目名称", width: 145 },
+              { field: "groupname", title: "采用名单", width: 100 },
+              { field: "starttime", title: "开始时间", width: 177, sort: true },
+              { field: "endtime", title: "结束时间", width: 177, sort: true },
+              { field: "status", title: "当前状态", width: 100, sort: true },
+              { field: "projectps", title: "备注", width: 200 }
+
             ]
           ]
         });
         table.on("tool(tableFilter)", function(obj) {
           var data = obj.data;
           if (obj.event === "delbt") {
-            var fromData = { order: "del", projectid: data.projectid };
+            //删除确认
+            layer.confirm('您确定要删除这条数据吗？', {btn: ['确定','取消']
+            }, function(){
+              layer.closeAll('dialog');
+              var fromData = { order: "del", projectid: data.projectid };
             $.ajax({
               url: "./UpdateProjectServlet",
               method: "post",
@@ -407,21 +412,15 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
                 }
               }
             });
+          });
+
           } else if (obj.event === "updatebt") {
-            $.ajax({
-              url: "GroupDataTableInterface",
-              type: "post",
-              data:{"userid":StaticUserId},
-              dataType: "json",
-              success: function(data){
-                for(var temp in data.data){
-                  $("#basic").append("<option data-subtext='option subtext' value='"+ data.data[temp].groupkey +"'>"+data.data[temp].groupName+"</option>");
-                  //var opt = new Option(data.data[temp].groupName, data.data[temp].groupkey);
-                  // groupselect.options.add(opt);
-                }
-              }
-            });
-            
+            //数据预先填写
+            $projectid = data.projectid;
+            $('#yname').val(data.projectname);
+            $('#ytext').val(data.projectps);
+            $('#basic').val(data.groupname);
+            $('#datePicker').val(data.starttime+data.endtime);
             $("#UpdateModal").modal("show");
           }
         });
@@ -429,11 +428,12 @@ request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+Pr
     </script>
     <script>
       function UpdatePorject(){
+        console.log($projectid);
         $.ajax({
-        url: "AddPorjectServlet",
+        url: "UpdatePorjectServlet",
         type: "post",
         data:{
-          "projectid":,
+          "projectid":$projectid,
 
           "projectName":$('#yname').val(),
           "projectPs":$('#ytext').val(),
